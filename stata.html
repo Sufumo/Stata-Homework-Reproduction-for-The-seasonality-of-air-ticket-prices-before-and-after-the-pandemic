@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Reveal.js + Stata Highlight Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <!-- Reveal.js 样式 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
@@ -13,9 +13,328 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
 
   <style>
+    /* 字体设置 - 确保跨平台一致性 */
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* 全局字体设置 */
+    body, .reveal {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+    
+    /* 代码字体设置 */
+    code, pre, .hljs {
+      font-family: 'Source Code Pro', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace !important;
+      font-weight: 400;
+    }
+    
+    /* 强制深色主题 - 防止移动端白底黑字 */
+    .reveal {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+      color: #e2e8f0 !important;
+    }
+    
+    .reveal .slides section {
+      background: transparent !important;
+      color: #e2e8f0 !important;
+    }
+    
+    /* 标题样式优化 */
+    .reveal .slides section h1 {
+      color: #60a5fa !important;
+      font-weight: 700 !important;
+      font-size: clamp(2.5rem, 5vw, 4rem) !important;
+      margin-bottom: 1rem !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .reveal .slides section h2 {
+      color: #34d399 !important;
+      font-weight: 600 !important;
+      font-size: clamp(1.8rem, 4vw, 2.5rem) !important;
+      margin-bottom: 0.8rem !important;
+      border-bottom: 2px solid #34d399 !important;
+      padding-bottom: 0.3rem !important;
+    }
+    
+    .reveal .slides section h3 {
+      color: #fbbf24 !important;
+      font-weight: 500 !important;
+      font-size: clamp(1.4rem, 3vw, 1.8rem) !important;
+      margin-bottom: 0.6rem !important;
+    }
+    
+    .reveal .slides section h4,
+    .reveal .slides section h5,
+    .reveal .slides section h6 {
+      color: #a78bfa !important;
+      font-weight: 500 !important;
+    }
+    
+    /* 段落和列表样式 */
+    .reveal .slides section p {
+      color: #e2e8f0 !important;
+      font-size: clamp(1rem, 2.5vw, 1.2rem) !important;
+      line-height: 1.7 !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .reveal .slides section li {
+      color: #e2e8f0 !important;
+      font-size: clamp(0.9rem, 2.2vw, 1.1rem) !important;
+      line-height: 1.6 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    /* 强调文本样式 */
+    .reveal .slides section strong {
+      color: #fbbf24 !important;
+      font-weight: 600 !important;
+    }
+    
+    .reveal .slides section em {
+      color: #a78bfa !important;
+      font-style: italic !important;
+    }
+    
+    /* 代码样式增强 */
     code.hljs {
-      font-size: 18px;
-      line-height: 1.5;
+      font-size: clamp(0.9rem, 2.2vw, 1.1rem) !important;
+      line-height: 1.6 !important;
+      font-weight: 400 !important;
+      background: rgba(15, 15, 35, 0.8) !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      padding: 1rem !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    pre {
+      background: rgba(15, 15, 35, 0.8) !important;
+      border: 1px solid #374151 !important;
+      border-radius: 12px !important;
+      padding: 1.5rem !important;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+      overflow-x: auto !important;
+    }
+    
+    /* 代码行号高亮样式 */
+    .reveal pre code[data-line-numbers] {
+      position: relative;
+    }
+    
+    .reveal pre code[data-line-numbers] .line-highlight {
+      background: rgba(251, 191, 36, 0.2) !important;
+      border-left: 3px solid #fbbf24 !important;
+      padding-left: 0.5rem !important;
+      margin-left: -0.5rem !important;
+    }
+    
+    /* 确保行号高亮在代码块中正确显示 */
+    .reveal pre code[data-line-numbers] .line-highlight:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #fbbf24;
+    }
+    
+    /* 表格样式增强 */
+    .reveal table {
+      background: rgba(15, 15, 35, 0.6) !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      overflow: hidden !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .reveal table th {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+      padding: 0.8rem !important;
+    }
+    
+    .reveal table td {
+      color: #e2e8f0 !important;
+      border: 1px solid #374151 !important;
+      padding: 0.6rem !important;
+      background: rgba(15, 15, 35, 0.3) !important;
+    }
+    
+    .reveal table tr:nth-child(even) td {
+      background: rgba(15, 15, 35, 0.5) !important;
+    }
+    
+    /* 链接样式 */
+    .reveal a {
+      color: #60a5fa !important;
+      text-decoration: none !important;
+      border-bottom: 1px solid transparent !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .reveal a:hover {
+      color: #93c5fd !important;
+      border-bottom-color: #93c5fd !important;
+    }
+    
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 15, 35, 0.3);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+      border-radius: 4px;
+      border: 1px solid rgba(15, 15, 35, 0.5);
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+    }
+    
+    /* 特殊容器样式 */
+    .reveal .slides section div[style*="max-height"] {
+      background: rgba(15, 15, 35, 0.4) !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* 数学公式样式 */
+    .reveal .slides section .MathJax {
+      color: #fbbf24 !important;
+    }
+    
+    /* 移动端响应式优化 */
+    @media (max-width: 768px) {
+      .reveal {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      .reveal .slides {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      .reveal .slides section {
+        width: 100% !important;
+        height: 100% !important;
+        box-sizing: border-box !important;
+      }
+      
+      /* 移动端网格布局优化 */
+      .reveal .slides section div[style*="grid-template-columns"] {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      
+      /* 移动端代码字体调整 - 增大字体 */
+      code.hljs {
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        padding: 0.8rem !important;
+      }
+      
+      pre {
+        padding: 1rem !important;
+      }
+      
+      /* 移动端表格优化 */
+      .reveal table {
+        font-size: 0.8rem !important;
+      }
+      
+      .reveal table th,
+      .reveal table td {
+        padding: 0.4rem !important;
+      }
+      
+      /* 移动端图片优化 */
+      .reveal img {
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+      }
+      
+      /* 移动端卡片优化 */
+      .reveal .slides section div[style*="background: rgba(15, 15, 35, 0.4)"] {
+        margin: 0.5rem 0 !important;
+      }
+      
+      /* 移动端标题优化 */
+      .reveal .slides section h1 {
+        font-size: 2rem !important;
+        margin-bottom: 0.8rem !important;
+      }
+      
+      .reveal .slides section h2 {
+        font-size: 1.6rem !important;
+        margin-bottom: 0.6rem !important;
+      }
+      
+      .reveal .slides section h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+    }
+    
+    /* 平板端优化 */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .reveal {
+        width: 100% !important;
+      }
+      
+      code.hljs {
+        font-size: 1rem !important;
+      }
+      
+      .reveal table {
+        font-size: 0.9rem !important;
+      }
+    }
+    
+    /* 大屏幕优化 */
+    @media (min-width: 1400px) { 
+      code.hljs {
+        font-size: 1.1rem !important;
+      }
+    }
+    
+    /* 动画效果 */
+    .reveal .slides section {
+      transition: all 0.3s ease !important;
+    }
+    
+    .reveal .slides section:hover {
+      transform: translateY(-2px) !important;
+    }
+    
+    /* 特殊元素样式 */
+    .reveal .slides section small {
+      color: #9ca3af !important;
+      font-size: 0.9em !important;
+    }
+    
+    .reveal .slides section .fragment {
+      opacity: 0.7 !important;
+      transition: opacity 0.3s ease !important;
+    }
+    
+    .reveal .slides section .fragment.visible {
+      opacity: 1 !important;
     }
   </style>
 </head>
@@ -26,13 +345,29 @@
 
     <!-- 标题页 -->
     <section>
-      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
-        <img src="./resources/stata.svg" style="height: 10rem; margin: 0 2rem 0 0; background: transparent;">
-        <h1 style="font-size: 10rem;">STATA</h1>
+      <div style="text-align: center; padding: 2rem 0;">
+        <img src="./resources/Stata.png" style="height: 8rem; margin: 0 0 2rem 0; background: transparent; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));">
+        <h1 style="color: #60a5fa !important; font-size: clamp(2.5rem, 5vw, 3.5rem) !important; margin-bottom: 1rem !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;">
+          疫情前后机票价格的季节性研究
+        </h1>
+        <p style="color: #34d399 !important; font-size: clamp(1.2rem, 3vw, 1.5rem) !important; margin-bottom: 1.5rem !important; font-weight: 500 !important;">
+          —— 基于巴西航空市场的实证分析 ——
+        </p>
+        <div style="background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; margin: 2rem auto; max-width: 600px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
+          <p style="color: #e2e8f0 !important; margin-bottom: 1rem !important;">
+            <strong style="color: #fbbf24 !important;">研究作者：</strong>
+            <a href="https://github.com/avmoliveira/avdatabr/tree/main" style="color: #60a5fa !important; text-decoration: none !important; border-bottom: 1px solid transparent !important; transition: all 0.3s ease !important;">
+              Alessandro V. M. Oliveira
+            </a>
+          </p>
+          <p style="color: #e2e8f0 !important; margin-bottom: 0.5rem !important;">
+            <strong style="color: #fbbf24 !important;">数据来源：</strong>巴西民航局(ANAC) 2013-2023年
+          </p>
+          <p style="color: #e2e8f0 !important; margin-bottom: 0 !important;">
+            <strong style="color: #fbbf24 !important;">研究方法：</strong>面板数据固定效应模型
+          </p>
+        </div>
       </div>
-      <h2>疫情前后机票价格的季节性研究</h2>
-      <p>-- 基于巴西航空市场的实证分析 --</p>
-      <small>By <a href="https://github.com/avmoliveira/avdatabr/tree/main">Alessandro V. M. Oliveira</a></small>
     </section>
 
     <!-- 一、研究背景与意义 -->
@@ -43,27 +378,77 @@
 
       <section>
         <h3>1. 价格季节性定义</h3>
-        <p>指商品/服务价格因季节、假期、消费习惯、天气等供需因素，在全年呈现周期性波动的现象。</p>
-        <p>例如航空业中，假期出行需求激增会推高票价，淡季需求低迷则促使票价下降。</p>
+        <div style="background: rgba(15, 15, 35, 0.4); border-left: 4px solid #34d399; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+          <p style="color: #e2e8f0 !important; font-size: clamp(1rem, 2.5vw, 1.2rem) !important; line-height: 1.7 !important; margin-bottom: 1rem !important;">
+            指商品/服务价格因<strong style="color: #fbbf24 !important;">季节、假期、消费习惯、天气</strong>等供需因素，在全年呈现<strong style="color: #fbbf24 !important;">周期性波动</strong>的现象。
+          </p>
+          <p style="color: #e2e8f0 !important; font-size: clamp(1rem, 2.5vw, 1.2rem) !important; line-height: 1.7 !important; margin-bottom: 0 !important;">
+            例如航空业中，<strong style="color: #60a5fa !important;">假期出行需求激增</strong>会推高票价，<strong style="color: #a78bfa !important;">淡季需求低迷</strong>则促使票价下降。
+          </p>
+        </div>
       </section>
 
       <section>
         <h3>2. 航空业季节性的全链条影响</h3>
-        <ul>
-          <li><strong>对航司：</strong>通过季节性调整航班排班、运力与票价，实现高季利润最大化，低季减少亏损</li>
-          <li><strong>对机场/空管：</strong>依据季节性预判旅客流量，优化值机柜台、跑道使用效率</li>
-          <li><strong>对乘客：</strong>利用低季低价窗口规划出行，可降低20%-30%出行成本</li>
-          <li><strong>对市场竞争：</strong>季节性差异推动航司创新，如LCC在低季推出"早鸟票"</li>
-        </ul>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #60a5fa !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #60a5fa !important; padding-bottom: 0.3rem !important;">对航司</h4>
+            <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              通过季节性调整航班排班、运力与票价，实现<strong style="color: #fbbf24 !important;">高季利润最大化</strong>，低季减少亏损
+            </p>
+          </div>
+          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #34d399 !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #34d399 !important; padding-bottom: 0.3rem !important;">对机场/空管</h4>
+            <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              依据季节性预判旅客流量，优化<strong style="color: #fbbf24 !important;">值机柜台、跑道使用效率</strong>
+            </p>
+          </div>
+          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #a78bfa !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #a78bfa !important; padding-bottom: 0.3rem !important;">对乘客</h4>
+            <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              利用低季低价窗口规划出行，可降低<strong style="color: #fbbf24 !important;">20%-30%出行成本</strong>
+            </p>
+          </div>
+          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #fbbf24 !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #fbbf24 !important; padding-bottom: 0.3rem !important;">对市场竞争</h4>
+            <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              季节性差异推动航司创新，如LCC在低季推出<strong style="color: #fbbf24 !important;">"早鸟票"</strong>
+            </p>
+          </div>
+        </div>
       </section>
 
       <section>
         <h3>3. 疫情的三重冲击</h3>
-        <ul>
-          <li><strong>需求端：</strong>远程办公使商务出行减少30%以上，乘客偏好国内目的地</li>
-          <li><strong>供给端：</strong>全球供应链中断导致飞机交付延迟，航司运力恢复缓慢</li>
-          <li><strong>定价逻辑：</strong>疫情初期航司为维持现金流被迫大幅降价，可能重塑长期季节性定价习惯</li>
-        </ul>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin: 1.5rem 0;">
+          <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #ef4444 !important; font-size: 1.2rem !important; margin-bottom: 0.8rem !important; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="background: #ef4444; color: white; padding: 0.3rem 0.6rem; border-radius: 50%; font-size: 0.8rem; font-weight: bold;">1</span>
+              需求端冲击
+            </h4>
+            <p style="color: #e2e8f0 !important; font-size: 1rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              远程办公使<strong style="color: #fbbf24 !important;">商务出行减少30%以上</strong>，乘客偏好<strong style="color: #fbbf24 !important;">国内目的地</strong>
+            </p>
+          </div>
+          <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #f59e0b !important; font-size: 1.2rem !important; margin-bottom: 0.8rem !important; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="background: #f59e0b; color: white; padding: 0.3rem 0.6rem; border-radius: 50%; font-size: 0.8rem; font-weight: bold;">2</span>
+              供给端冲击
+            </h4>
+            <p style="color: #e2e8f0 !important; font-size: 1rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              全球供应链中断导致<strong style="color: #fbbf24 !important;">飞机交付延迟</strong>，航司运力恢复缓慢
+            </p>
+          </div>
+          <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+            <h4 style="color: #8b5cf6 !important; font-size: 1.2rem !important; margin-bottom: 0.8rem !important; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="background: #8b5cf6; color: white; padding: 0.3rem 0.6rem; border-radius: 50%; font-size: 0.8rem; font-weight: bold;">3</span>
+              定价逻辑冲击
+            </h4>
+            <p style="color: #e2e8f0 !important; font-size: 1rem !important; line-height: 1.6 !important; margin: 0 !important;">
+              疫情初期航司为维持现金流被迫<strong style="color: #fbbf24 !important;">大幅降价</strong>，可能重塑长期季节性定价习惯
+            </p>
+          </div>
+        </div>
       </section>
     </section>
 
@@ -654,7 +1039,7 @@ coefplot GranularSeas ///
 
       <section>
         <h3>图1 价格季节性系数图</h3>
-        <img src="./resources/价格季节性系数图.png" style="max-height: 70vh;">
+        <img src="./resources/价格季节性系数图.png" style="max-height: 50vh;">
         <p class="fragment" data-fragment-index="1" style="font-size: 0.7em;"><strong>结论：</strong>价格季节性呈"先升后降、峰谷分明"特征，10月为全年价格高点，4月为低点</p>
       </section>
 
@@ -786,7 +1171,7 @@ coefplot PrePandemic PostPandemic ///
 
       <section>
         <h3>图2 疫情前后季节性系数对比图</h3>
-        <img src="./resources/疫情前后季节性系数对比图.png" style="max-height: 70vh;">
+        <img src="./resources/疫情前后季节性系数对比图.png" style="max-height: 50vh;">
         <p class="fragment" data-fragment-index="1" style="font-size: 0.7em;"><strong>结论：</strong>疫情后季节性"峰谷差扩大"，呈现"去集中化"特征</p>
       </section>
     </section>
@@ -896,16 +1281,48 @@ coefplot PrePandemic PostPandemic ///
 
     <!-- 结束页 -->
     <section>
-    <section>
-      <h2>致谢！</h2>
-      <ul>
-        <li>论文：<a>https://arxiv.org/abs/2402.13789</a></li>
-        <li>数据：<a>https://doi.org/10.7910/DVN/CRYXUZ</a></li>
-        <li>代码：<a>https://github.com/avmoliveira/avdatabr/blob/main/</a></li>
-        <li>演示：<a>https://github.com/hakimel/reveal.js</a></li>
-      </ul>
+      <div style="text-align: center; padding: 2rem 0;">
+        <h2 style="color: #34d399 !important; font-size: clamp(2rem, 4vw, 2.5rem) !important; margin-bottom: 2rem !important;">
+          感谢观看！
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin: 2rem 0; max-width: 800px; margin-left: auto; margin-right: auto;">
+          
+          <div style="display: flex; align-items: center; background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); gap: 1rem;">
+            <span style="font-size: 1.2rem;">📄</span>
+            <span style="color: #60a5fa !important; font-weight: 600; font-size: 1rem;">论文</span>
+            <a href="https://arxiv.org/abs/2402.13789" style="color: #e2e8f0 !important; text-decoration: none !important; font-size: 0.9rem !important; word-break: break-all !important;">
+              https://arxiv.org/abs/2402.13789
+            </a>
+          </div>
+    
+          <div style="display: flex; align-items: center; background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); gap: 1rem;">
+            <span style="font-size: 1.2rem;">📊</span>
+            <span style="color: #34d399 !important; font-weight: 600; font-size: 1rem;">数据</span>
+            <a href="https://doi.org/10.7910/DVN/CRYXUZ" style="color: #e2e8f0 !important; text-decoration: none !important; font-size: 0.9rem !important; word-break: break-all !important;">
+              https://doi.org/10.7910/DVN/CRYXUZ
+            </a>
+          </div>
+    
+          <div style="display: flex; align-items: center; background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); gap: 1rem;">
+            <span style="font-size: 1.2rem;">💻</span>
+            <span style="color: #fbbf24 !important; font-weight: 600; font-size: 1rem;">代码</span>
+            <a href="https://github.com/avmoliveira/avdatabr/blob/main/" style="color: #e2e8f0 !important; text-decoration: none !important; font-size: 0.9rem !important; word-break: break-all !important;">
+              https://github.com/avmoliveira/avdatabr/blob/main/
+            </a>
+          </div>
+    
+          <div style="display: flex; align-items: center; background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); gap: 1rem;">
+            <span style="font-size: 1.2rem;">🎨</span>
+            <span style="color: #a78bfa !important; font-weight: 600; font-size: 1rem;">演示</span>
+            <a href="https://github.com/hakimel/reveal.js" style="color: #e2e8f0 !important; text-decoration: none !important; font-size: 0.9rem !important; word-break: break-all !important;">
+              https://github.com/hakimel/reveal.js
+            </a>
+          </div>
+    
+        </div>
+      </div>
     </section>
-    </section>
+        
 
   </div>
 </div>
@@ -936,7 +1353,22 @@ coefplot PrePandemic PostPandemic ///
   // 初始化 Reveal
   Reveal.initialize({
     hash: true,
-    width: 1280,
+    width: 1440,
+    height: 720,
+    margin: 0.1,
+    minScale: 0.2,
+    maxScale: 2.0,
+    center: true,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    viewDistance: 3,
+    mobileViewDistance: 2,
+    // 确保代码高亮和行号功能正常
+    highlight: {
+      highlightOnLoad: true,
+      escapeHTML: false
+    },
     mathjax2: {
             config: 'TeX-AMS_HTML-full',
             TeX: {
@@ -947,6 +1379,69 @@ coefplot PrePandemic PostPandemic ///
             }
         },
     plugins: [ RevealHighlight, RevealMath.MathJax2 ]
+  });
+  
+  // 响应式处理
+  function handleResize() {
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+    
+    if (isMobile) {
+      Reveal.configure({
+        width: '100%',
+        height: '100%',
+        margin: 0.05,
+        minScale: 0.1,
+        maxScale: 1.5
+      });
+    } else if (isTablet) {
+      Reveal.configure({
+        width: '100%',
+        height: '100%',
+        margin: 0.08,
+        minScale: 0.2,
+        maxScale: 1.8
+      });
+    } else {
+      Reveal.configure({
+        width: '100%',
+        height: '100%',
+        margin: 0.1,
+        minScale: 0.2,
+        maxScale: 2.0
+      });
+    }
+  }
+  
+  // 监听窗口大小变化
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('load', handleResize);
+  
+  // 确保代码行号高亮功能正常工作
+  Reveal.on('ready', function() {
+    // 重新初始化代码高亮
+    if (typeof hljs !== 'undefined') {
+      hljs.highlightAll();
+    }
+    
+    // 确保行号高亮功能正常
+    const codeBlocks = document.querySelectorAll('code[data-line-numbers]');
+    codeBlocks.forEach(function(block) {
+      if (block.dataset.lineNumbers) {
+        // 触发行号高亮
+        Reveal.sync();
+      }
+    });
+  });
+  
+  // 当幻灯片改变时重新同步代码高亮
+  Reveal.on('slidechanged', function(event) {
+    // 延迟执行以确保DOM更新完成
+    setTimeout(function() {
+      if (typeof hljs !== 'undefined') {
+        hljs.highlightAll();
+      }
+    }, 100);
   });
 </script>
 
