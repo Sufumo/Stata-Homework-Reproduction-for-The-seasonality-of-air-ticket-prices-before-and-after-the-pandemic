@@ -1,11 +1,13 @@
 {
     "version": 2,
+    "public": true,
     "builds": [
       { "src": "stata.html", "use": "@vercel/static" },
       { "src": "references/**", "use": "@vercel/static" }
     ],
     "routes": [
-      { "src": "/", "dest": "/stata.html" }
+      { "src": "/", "dest": "/stata.html" },
+      { "src": "/(.*)", "dest": "/$1" }
     ]
-}
+  }
   
