@@ -5,4 +5,4 @@ dist/
 .vercel/
 
 # 忽略参考图像目录
-references/
+reference/
