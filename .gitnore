@@ -1,8 +1,0 @@
-# 忽略临时文件
-.DS_Store
-node_modules/
-dist/
-.vercel/
-
-# 忽略参考图像目录
-reference/
