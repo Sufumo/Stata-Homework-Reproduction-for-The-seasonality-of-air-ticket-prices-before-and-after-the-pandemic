@@ -1,0 +1,61 @@
+<!-- 公式渲染 -->
+<div style="max-height: 70vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+    \[
+    \begin{aligned}
+    ln(AirFare_it) &= β₀ + β₁ln(FuelPrice_it) \\
+    &+ β₂ln(PaxDens_it) + β₃ln(MktConc_it) \\
+    &+ β₄LoadFactor_it + β₅Pandemic_it \\
+    &+ β₆Trend_it + α_i + ε_it
+    \end{aligned}
+    \]
+</div>
+<!-- 表格渲染 -->
+<div style="max-height: 70vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+    <table>
+      <tr><th>Month</th><th>Price</th></tr>
+      <tr><td>Jan</td><td>120</td></tr>
+      <tr><td>Feb</td><td>125</td></tr>
+      <tr><td>Mar</td><td>130</td></tr>
+      <!-- (Imagine 100 rows) -->
+    </table>
+</div>
+<section>
+代码渲染				
+</section>
+<section data-auto-animate="fade" data-auto-animate-unmatched="fade">
+    <h1>标题</h1>
+    <p data-id="explanation">代码说明1</p>
+    <pre>
+        <code data-id="code" data-line-numbers="1-2" class="hljs javascript" data-trim>
+            <script type="text/template">
+            code1
+            ...
+            code2
+            ...
+        </script>
+        </code>
+    </pre>
+</section>
+<!-- 数学公式依赖于MathJax插件，需要引入MathJax插件的js文件。 -->
+<script src="../plugin/math/math.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+
+        mathjax2: {
+            config: 'TeX-AMS_HTML-full',
+            TeX: {
+                Macros: {
+                    R: '\\mathbb{R}',
+                    set: [ '\\left\\{#1 \\; ; \\; #2\\right\\}', 2 ]
+                }
+            }
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax2 ]
+    });
+</script>
