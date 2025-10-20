@@ -212,7 +212,7 @@
     
     /* 数学公式样式 */
     .reveal .slides section .MathJax {
-      color: #fbbf24 !important;
+      color: #ffffff !important;
     }
     
     /* 移动端响应式优化 */
@@ -268,6 +268,7 @@
         border-radius: 8px !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
       }
+ v
       
       /* 移动端卡片优化 */
       .reveal .slides section div[style*="background: rgba(15, 15, 35, 0.4)"] {
@@ -346,7 +347,7 @@
     <!-- 标题页 -->
     <section>
       <div style="text-align: center; padding: 2rem 0;">
-        <img src="./resources/Stata.png" style="height: 8rem; margin: 0 0 2rem 0; background: transparent; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));">
+        <img src="./resources/Stata.png" class="stata-logo" style="height: 8rem; margin: 0 0 2rem 0; background: transparent; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));">
         <h1 style="color: #60a5fa !important; font-size: clamp(3rem, 6vw, 4rem) !important; margin-bottom: 1rem !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;">
           疫情前后机票价格的季节性研究
         </h1>
@@ -355,16 +356,13 @@
         </p>
         <div style="background: rgba(15, 15, 35, 0.6); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; margin: 2rem auto; max-width: 600px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
           <p style="color: #e2e8f0 !important; margin-bottom: 1rem !important;">
-            <strong style="color: #fbbf24 !important;">研究作者：</strong>
+            <strong style="color: #fbbf24 !important;">作者：</strong>
             <a href="https://github.com/avmoliveira/avdatabr/tree/main" style="color: #60a5fa !important; text-decoration: none !important; border-bottom: 1px solid transparent !important; transition: all 0.3s ease !important;">
               Alessandro V. M. Oliveira
             </a>
           </p>
           <p style="color: #e2e8f0 !important; margin-bottom: 0.5rem !important;">
             <strong style="color: #fbbf24 !important;">数据来源：</strong>巴西民航局(ANAC) 2013-2023年
-          </p>
-          <p style="color: #e2e8f0 !important; margin-bottom: 0 !important;">
-            <strong style="color: #fbbf24 !important;">研究方法：</strong>面板数据固定效应模型
           </p>
         </div>
       </div>
@@ -390,31 +388,35 @@
 
       <section>
         <h3>2. 航空业季节性的全链条影响</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
-          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-            <h4 style="color: #60a5fa !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #60a5fa !important; padding-bottom: 0.3rem !important;">对航司</h4>
-            <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
-              通过季节性调整航班排班、运力与票价，实现<strong style="color: #fbbf24 !important;">高季利润最大化</strong>，低季减少亏损
-            </p>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;margin: 1.5rem 0;">
+          <div style="display: flex; justify-content: space-between;">
+            <div style="width: 45%; background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+              <h4 style="color: #60a5fa !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #60a5fa !important; padding-bottom: 0.3rem !important;">对航司</h4>
+              <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
+                通过季节性调整航班排班、运力与票价，实现<strong style="color: #fbbf24 !important;">高季利润最大化</strong>，低季减少亏损
+              </p>
           </div>
-          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+          <div style="width: 45%; background: rgba(14, 14, 21, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
             <h4 style="color: #34d399 !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #34d399 !important; padding-bottom: 0.3rem !important;">对机场/空管</h4>
             <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
               依据季节性预判旅客流量，优化<strong style="color: #fbbf24 !important;">值机柜台、跑道使用效率</strong>
             </p>
           </div>
-          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <div style="width: 45%; background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
             <h4 style="color: #a78bfa !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #a78bfa !important; padding-bottom: 0.3rem !important;">对乘客</h4>
             <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
               利用低季低价窗口规划出行，可降低<strong style="color: #fbbf24 !important;">20%-30%出行成本</strong>
             </p>
           </div>
-          <div style="background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+          <div style="width: 45%; background: rgba(15, 15, 35, 0.4); border: 1px solid #374151; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
             <h4 style="color: #fbbf24 !important; font-size: 1.1rem !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #fbbf24 !important; padding-bottom: 0.3rem !important;">对市场竞争</h4>
             <p style="color: #e2e8f0 !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 !important;">
               季节性差异推动航司创新，如LCC在低季推出<strong style="color: #fbbf24 !important;">"早鸟票"</strong>
             </p>
           </div>
+        </div>
         </div>
       </section>
 
@@ -527,6 +529,8 @@
           case(preserve) clear
           * case(preserve) 保留变量名原始大小写
           * clear 清除内存中现有数据
+
+          * 筛选样本
         </code></pre>
       </section>
 
@@ -759,7 +763,6 @@
             gen SummBrSearch = (Month==8 | Month==9 | Month==10 | Month==11)
 
             * 夏季高峰虚拟变量：12月-次年2月为1（巴西夏季旅游高峰）
-            * 基准组：3月
             gen SummBreak = (Month==12 | Month==1 | Month==2)
 
             * 淡季虚拟变量：4-6月为1（旅游淡季）
@@ -1364,6 +1367,7 @@ coefplot PrePandemic PostPandemic ///
     backgroundTransition: 'fade',
     viewDistance: 3,
     mobileViewDistance: 2,
+    touch: false,
     // 确保代码高亮和行号功能正常
     highlight: {
       highlightOnLoad: true,
@@ -1388,24 +1392,27 @@ coefplot PrePandemic PostPandemic ///
     
     if (isMobile) {
       Reveal.configure({
-        width: '100%',
+        width: '80%',
         height: '100%',
+        padding: '0 10%',
         margin: 0.05,
         minScale: 0.1,
         maxScale: 1.5
       });
     } else if (isTablet) {
       Reveal.configure({
-        width: '100%',
+        width: '80%',
         height: '100%',
+        padding: '0 10%',
         margin: 0.08,
         minScale: 0.2,
         maxScale: 1.8
       });
     } else {
       Reveal.configure({
-        width: '100%',
+        width: '80%',
         height: '100%',
+        padding: '0 10%',
         margin: 0.1,
         minScale: 0.2,
         maxScale: 2.0
