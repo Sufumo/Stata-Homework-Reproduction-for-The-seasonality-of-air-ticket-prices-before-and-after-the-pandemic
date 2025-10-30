@@ -12,11 +12,11 @@ RUN echo 'server { \
     listen 80; \
     server_name localhost; \
     root /usr/share/nginx/html; \
-    index stata.html; \
+    index index.html; \
     \
-    # 处理根路径重定向到stata.html \
+    # 处理根路径重定向到index.html \
     location / { \
-        try_files $uri $uri/ /stata.html; \
+        try_files $uri $uri/ /index.html; \
     } \
     \
     # 静态资源缓存设置 \
